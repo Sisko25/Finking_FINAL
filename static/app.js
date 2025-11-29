@@ -1,7 +1,6 @@
 // FinKing AI - Chat Functionality
 // API endpoint for backend
-const API_URL = '/chat';
-
+const API_URL = '/api/chat';
 // DOM elements
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
