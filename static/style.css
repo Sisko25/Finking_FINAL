@@ -6,10 +6,18 @@
 }
 
 :root {
+    /* Layout Variables */
     --sidebar-width: 300px;
     --mobile-nav-height: 70px;
     --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
     --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+
+    /* Spacing Variables (Required for message formatting) */
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
 }
 
 body {
@@ -381,4 +389,90 @@ body {
     .company-name { font-size: 28px; }
     .about-section { padding: 20px; }
     .metrics-grid, .contact-grid { grid-template-columns: 1fr; } /* Stack cards */
+}
+
+/* --- MESSAGE CONTENT FORMATTING --- */
+.message-content p {
+    margin: var(--space-12) 0;
+    line-height: 1.7;
+}
+
+.message-content h1,
+.message-content h2,
+.message-content h3 {
+    margin: var(--space-16) 0 var(--space-8) 0;
+    font-weight: 600;
+}
+
+.message-content h1 { 
+    font-size: 1.4rem; 
+    color: #60a5fa;
+}
+
+.message-content h2 { 
+    font-size: 1.2rem; 
+    color: #60a5fa;
+}
+
+.message-content h3 { 
+    font-size: 1.05rem; 
+    color: #94a3b8;
+}
+
+.message-content strong {
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+.message-content em {
+    color: #cbd5e1;
+    font-style: italic;
+}
+
+.message-content .inline-code {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9em;
+}
+
+.message-content .code-block {
+    background: rgba(0, 0, 0, 0.4);
+    border-left: 3px solid #60a5fa;
+    padding: var(--space-12);
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: var(--space-12) 0;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.message-content .code-block code {
+    color: #cbd5e1;
+}
+
+.message-content .msg-list {
+    margin: var(--space-12) 0 var(--space-12) var(--space-20);
+    line-height: 1.8;
+}
+
+.message-content .msg-list li {
+    margin: var(--space-6) 0;
+    color: #cbd5e1;
+}
+
+.message-content ul.msg-list li::marker {
+    color: #60a5fa;
+}
+
+.message-content ol.msg-list li {
+    margin-left: var(--space-8);
+}
+
+.message-content ol.msg-list li::marker {
+    color: #60a5fa;
+    font-weight: 600;
 }
