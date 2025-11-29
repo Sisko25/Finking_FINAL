@@ -1,269 +1,118 @@
-<!DOCTYPE html>
-<html lang="en" data-color-scheme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="color-scheme" content="dark">
-    <meta name="description" content="FinKing AI - AI-Powered Investment Analysis & Market Intelligence by Sisko Capital">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="FinKing">
-    <title>FinKing AI - Sisko Capital</title>
-    <link rel="stylesheet" href="static/style.css">
-    <style>
-        :root { 
-            color-scheme: dark;
-            --sidebar-width: 300px;
-            --mobile-nav-height: 70px;
-        }
-        html { 
-            background: #1f2120; 
-            -webkit-font-smoothing: antialiased;
-            -webkit-touch-callout: none;
-        }
-        body { 
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
-            color: #e2e8f0; 
-            margin: 0; 
-            padding: 0;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-    </style>
-</head>
-<body>
-    <div class="app-container">
-        <!-- Sidebar Navigation (Desktop) / Bottom Nav (Mobile) -->
-        <aside class="sidebar" role="navigation" aria-label="Main Navigation">
-            <div class="sidebar-content">
-                <!-- Logo -->
-                <div class="logo">
-                    <span class="logo-icon" aria-hidden="true">🚀</span>
-                    <span class="logo-text">FinKing</span>
-                </div>
+// FinKing AI - Chat Functionality
+// API endpoint for backend
+const API_URL = '/chat';
 
-                <!-- Navigation Buttons -->
-                <nav class="navigation" role="tablist">
-                    <button 
-                        class="nav-btn active" 
-                        data-page="chat"
-                        role="tab"
-                        aria-selected="true"
-                        aria-controls="chat-page"
-                        aria-label="Chat - AI-Powered Investment Analysis"
-                    >
-                        <span class="nav-icon" aria-hidden="true">💬</span>
-                        <span class="nav-label">Chat</span>
-                    </button>
-                    <button 
-                        class="nav-btn" 
-                        data-page="about"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="about-page"
-                        aria-label="Intelligence - Company Information"
-                    >
-                        <span class="nav-icon" aria-hidden="true">💡</span>
-                        <span class="nav-label">Intelligence</span>
-                    </button>
-                </nav>
+// DOM elements
+const chatForm = document.getElementById('chat-form');
+const messageInput = document.getElementById('message-input');
+const chatMessages = document.getElementById('chat-messages');
+const sendButton = document.getElementById('send-button');
 
-                <!-- Ad Banner (Desktop Only) -->
-                <div class="ad-banner" aria-label="Premium Analytics Advertisement">
-                    <div class="ad-icon" aria-hidden="true">📊</div>
-                    <div class="ad-title">Premium Analytics</div>
-                    <div class="ad-description">Add your ad banner here</div>
-                </div>
+// Initialize chat
+function initChat() {
+    // Add welcome message
+    addMessage('assistant', "Hello! I'm FinKing AI, your AI-powered investment analyst. Ask me about stocks, crypto, markets, or any financial questions you have!");
+}
 
-                <!-- Footer (Desktop Only) -->
-                <footer class="sidebar-footer">
-                    <div class="footer-copyright">© 2025 Sisko Capital</div>
-                    <div class="footer-address">177 Tanjong Rhu Road<br>Singapore</div>
-                </footer>
-            </div>
-        </aside>
+// Add message to chat
+function addMessage(role, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${role}-message`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.textContent = content;
+    
+    messageDiv.appendChild(contentDiv);
+    chatMessages.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-        <!-- Main Content Area -->
-        <main class="main-content" role="main">
-            <!-- Chat Page -->
-            <div class="page active" id="chat-page" role="tabpanel" aria-labelledby="chat-tab">
-                <header class="chat-header">
-                    <h1 class="chat-title">FinKing AI</h1>
-                    <p class="chat-subtitle">AI-Powered Investment Analysis & Market Intelligence</p>
-                </header>
-                
-                <div class="chat-messages" id="chat-messages" role="log" aria-label="Chat Messages" aria-live="polite"></div>
-                
-                <div class="chat-input-container">
-                    <form class="input-wrapper" id="chat-form" role="search">
-                        <input 
-                            type="text" 
-                            id="message-input" 
-                            class="message-input" 
-                            placeholder="Ask about stocks, crypto, markets..." 
-                            autocomplete="off"
-                            aria-label="Message input for financial queries"
-                            required
-                        >
-                        <button 
-                            type="submit"
-                            class="send-button" 
-                            id="send-button"
-                            aria-label="Send message"
-                            title="Send message (Enter key)"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <line x1="22" y1="2" x2="11" y2="13"/>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Intelligence / About Page -->
-            <div class="page" id="about-page" role="tabpanel" aria-labelledby="about-tab">
-                <div class="about-container">
-                    <!-- Header -->
-                    <header class="about-header">
-                        <div class="company-logo" aria-hidden="true">🚀</div>
-                        <h1 class="company-name">Sisko AI</h1>
-                        <p class="company-tagline">Powering Market-Beating Strategies</p>
-                    </header>
-
-                    <!-- Proprietary AI Section -->
-                    <section class="about-section" aria-labelledby="platform-title">
-                        <h2 class="section-title" id="platform-title">Our Proprietary AI Platform</h2>
-                        <p class="section-text">
-                            Our proprietary AI platform leverages deep learning and quantitative analysis to generate superior returns across all market conditions. Built on cutting-edge infrastructure for maximum performance and reliability.
-                        </p>
-                    </section>
-
-                    <!-- Technology Stack Section -->
-                    <section class="about-section" aria-labelledby="tech-title">
-                        <h2 class="section-title" id="tech-title">Advanced Technology Stack</h2>
-                        <div class="metrics-grid" role="list">
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">🖥️</div>
-                                <div class="metric-value">High-Performance Computing</div>
-                                <div class="metric-label">Distributed computing clusters processing terabytes of market data in real-time with sub-millisecond latency</div>
-                            </article>
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">⚡</div>
-                                <div class="metric-value">Real-Time Execution</div>
-                                <div class="metric-label">Lightning-fast order execution powered by co-located servers and optimized network infrastructure</div>
-                            </article>
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">🔒</div>
-                                <div class="metric-value">Enterprise Security</div>
-                                <div class="metric-label">Bank-grade encryption and multi-layer security protocols protecting your investments 24/7</div>
-                            </article>
-                        </div>
-                    </section>
-
-                    <!-- AI System Section -->
-                    <section class="about-section" aria-labelledby="system-title">
-                        <h2 class="section-title" id="system-title">How Our AI-Powered System Works</h2>
-                        <p class="section-text">
-                            Our platform employs an ensemble of specialized deep learning models, each trained on different aspects of market behavior. These models generate independent signals that are aggregated through a sophisticated orchestration layer, applying portfolio constraints and risk limits before outputting executable orders.
-                        </p>
-                        <div class="metrics-grid" role="list">
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">🧠</div>
-                                <div class="metric-value">Signal Generation</div>
-                                <div class="metric-label">AI models process market data to identify trading opportunities</div>
-                            </article>
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">📊</div>
-                                <div class="metric-value">Portfolio Optimization</div>
-                                <div class="metric-label">Dynamic allocation across assets based on risk-adjusted returns</div>
-                            </article>
-                        </div>
-                    </section>
-
-                    <!-- Performance Metrics Section -->
-                    <section class="metrics-section" aria-labelledby="metrics-title">
-                        <h2 class="section-title" id="metrics-title">Performance Metrics</h2>
-                        <div class="metrics-grid" role="list">
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">📈</div>
-                                <div class="metric-value">27%</div>
-                                <div class="metric-label">Annual Return</div>
-                            </article>
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">⚡</div>
-                                <div class="metric-value">0.82</div>
-                                <div class="metric-label">Sharpe Ratio</div>
-                            </article>
-                            <article class="metric-card" role="listitem">
-                                <div class="metric-icon" aria-hidden="true">📊</div>
-                                <div class="metric-value">12%</div>
-                                <div class="metric-label">Volatility</div>
-                            </article>
-                        </div>
-                    </section>
-
-                    <!-- Contact Section -->
-                    <section class="contact-section" aria-labelledby="contact-title">
-                        <h2 class="section-title" id="contact-title">Contact Information</h2>
-                        <div class="contact-grid" role="list">
-                            <article class="contact-item" role="listitem">
-                                <div class="contact-icon" aria-hidden="true">📧</div>
-                                <div class="contact-details">
-                                    <div class="contact-label">Email</div>
-                                    <div class="contact-value">
-                                        <a href="mailto:sisko@duck.com">sisko@duck.com</a>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="contact-item" role="listitem">
-                                <div class="contact-icon" aria-hidden="true">📍</div>
-                                <div class="contact-details">
-                                    <div class="contact-label">Address</div>
-                                    <div class="contact-value">177 Tanjong Rhu Road, Singapore</div>
-                                </div>
-                            </article>
-                            <article class="contact-item" role="listitem">
-                                <div class="contact-icon" aria-hidden="true">🏢</div>
-                                <div class="contact-details">
-                                    <div class="contact-label">UEN</div>
-                                    <div class="contact-value">T25LL0878B</div>
-                                </div>
-                            </article>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- JavaScript for Page Navigation -->
-    <script src="static/app.js"></script>
-    <script>
-        // Simple page navigation logic
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const pageName = this.dataset.page;
-                
-                // Update active button
-                document.querySelectorAll('.nav-btn').forEach(b => {
-                    b.classList.remove('active');
-                    b.setAttribute('aria-selected', 'false');
-                });
-                this.classList.add('active');
-                this.setAttribute('aria-selected', 'true');
-                
-                // Update active page
-                document.querySelectorAll('.page').forEach(p => {
-                    p.classList.remove('active');
-                });
-                document.getElementById(pageName + '-page').classList.add('active');
-            });
+// Send message to backend
+async function sendMessage(userMessage) {
+    try {
+        // Disable input while processing
+        messageInput.disabled = true;
+        sendButton.disabled = true;
+        
+        // Add user message to chat
+        addMessage('user', userMessage);
+        
+        // Show typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message assistant-message typing-indicator';
+        typingDiv.innerHTML = '<div class="message-content"><span></span><span></span><span></span></div>';
+        typingDiv.id = 'typing-indicator';
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Send request to backend
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: userMessage })
         });
+        
+        // Remove typing indicator
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Add assistant response
+        if (data.response) {
+            addMessage('assistant', data.response);
+        } else {
+            addMessage('assistant', 'Sorry, I encountered an error processing your request.');
+        }
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        
+        // Remove typing indicator if it exists
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+        
+        addMessage('assistant', "Sorry, I'm having trouble connecting to the server. Please try again later.");
+    } finally {
+        // Re-enable input
+        messageInput.disabled = false;
+        sendButton.disabled = false;
+        messageInput.focus();
+    }
+}
 
-        // Prevent body scroll, allow page scroll only
-        document.body.style.overflow = 'hidden';
-    </script>
-</body>
-</html>
+// Handle form submission
+if (chatForm) {
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const message = messageInput.value.trim();
+        if (!message) return;
+        
+        // Clear input
+        messageInput.value = '';
+        
+        // Send message
+        await sendMessage(message);
+    });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChat);
+} else {
+    initChat();
+}
