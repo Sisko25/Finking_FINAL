@@ -236,6 +236,34 @@ body {
     border-bottom-left-radius: 4px;
 }
 
+/* Typing Indicator */
+.typing-indicator .message-content {
+    display: flex;
+    gap: 6px;
+    padding: 16px 20px;
+}
+
+.typing-indicator .message-content span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #60a5fa;
+    animation: typing 1.4s infinite;
+}
+
+.typing-indicator .message-content span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator .message-content span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-10px); opacity: 1; }
+}
+
 /* Chat Input */
 .chat-input-container {
     padding: 24px 40px 32px;
@@ -257,6 +285,7 @@ body {
     flex: 1; background: transparent; border: none; outline: none;
     color: #e2e8f0; font-size: 15px; padding: 12px 16px;
 }
+.message-input::placeholder { color: #64748b; }
 .send-button {
     width: 44px; height: 44px; border-radius: 8px; border: none;
     background: var(--accent-gradient); color: white;
@@ -264,6 +293,89 @@ body {
     transition: all 0.3s ease; flex-shrink: 0;
 }
 .send-button:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(96, 165, 250, 0.4); }
+.send-button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* --- MARKDOWN STYLING FOR AI MESSAGES --- */
+.message-content h1,
+.message-content h2,
+.message-content h3 {
+    margin: 1em 0 0.5em 0;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.message-content h1 { font-size: 1.5em; color: #60a5fa; }
+.message-content h2 { font-size: 1.3em; color: #60a5fa; }
+.message-content h3 { font-size: 1.1em; color: #94a3b8; }
+
+.message-content p {
+    margin: 0.8em 0;
+    line-height: 1.7;
+}
+
+.message-content p:first-child {
+    margin-top: 0;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.message-content strong {
+    font-weight: 600;
+    color: #60a5fa;
+}
+
+.message-content em {
+    font-style: italic;
+    color: #93c5fd;
+}
+
+.message-content code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #fbbf24;
+}
+
+.message-content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1em 0;
+    border-left: 3px solid #60a5fa;
+}
+
+.message-content pre code {
+    background: none;
+    padding: 0;
+    color: #e2e8f0;
+    font-size: 0.85em;
+}
+
+.message-content ul,
+.message-content ol {
+    margin: 0.8em 0;
+    padding-left: 1.5em;
+}
+
+.message-content li {
+    margin: 0.4em 0;
+    line-height: 1.6;
+    color: #cbd5e1;
+}
+
+.message-content ul li::marker {
+    color: #60a5fa;
+}
+
+.message-content ol li::marker {
+    color: #60a5fa;
+    font-weight: 600;
+}
 
 /* --- ABOUT / INTELLIGENCE PAGE --- */
 .about-container {
@@ -283,25 +395,129 @@ body {
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text; margin-bottom: 12px;
 }
+.company-tagline { font-size: 18px; color: #94a3b8; font-weight: 400; }
+
+/* Sections */
+.about-section {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #60a5fa;
+    margin-bottom: 16px;
+}
+
+.section-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #cbd5e1;
+}
 
 /* Cards & Grids */
 .metrics-grid, .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px; margin-top: 24px;
+    gap: 24px;
+    margin-top: 24px;
 }
 
-.about-section, .metric-card, .contact-item, .contact-section {
+.metric-card {
     background: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(96, 165, 250, 0.2);
     border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
-.about-section { padding: 32px; margin-bottom: 40px; }
-.metric-card { padding: 32px 24px; text-align: center; }
-.metric-value { font-size: 36px; font-weight: 700; color: #60a5fa; margin-bottom: 8px; }
-.metric-icon { font-size: 40px; margin-bottom: 16px; }
 
-.contact-item { display: flex; gap: 16px; padding: 20px; align-items: flex-start; }
+.metric-card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(96, 165, 250, 0.2);
+}
+
+.metric-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+}
+
+.metric-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 8px;
+}
+
+.metric-label {
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* Contact Section */
+.contact-section {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 12px;
+    padding: 32px;
+}
+
+.contact-item {
+    background: rgba(30, 41, 59, 0.3);
+    border: 1px solid rgba(96, 165, 250, 0.15);
+    border-radius: 8px;
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    border-color: #60a5fa;
+    background: rgba(96, 165, 250, 0.05);
+}
+
+.contact-icon {
+    font-size: 28px;
+    color: #60a5fa;
+}
+
+.contact-details {
+    flex: 1;
+}
+
+.contact-label {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.contact-value {
+    font-size: 16px;
+    color: #e2e8f0;
+    line-height: 1.5;
+}
+
+.contact-value a {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-value a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
 
 /* --- MOBILE RESPONSIVE DESIGN (< 768px) --- */
 @media (max-width: 768px) {
@@ -317,6 +533,7 @@ body {
         border-right: none;
         border-top: 1px solid rgba(96, 165, 250, 0.3);
         background: #0f172a; /* Solid background for nav bar */
+        z-index: 100;
     }
 
     .sidebar-content {
@@ -347,6 +564,7 @@ body {
         border: none;
         gap: 4px;
         height: 100%;
+        min-width: 60px;
     }
     
     .nav-btn:hover { transform: none; background: transparent; }
@@ -380,99 +598,37 @@ body {
     /* Chat Page Mobile */
     .chat-header { padding: 16px 20px; }
     .chat-title { font-size: 24px; }
+    .chat-subtitle { font-size: 14px; }
     .chat-messages { padding: 16px; gap: 16px; }
-    .message-content { max-width: 85%; padding: 12px 16px; }
-    .chat-input-container { padding: 12px 16px; }
+    .message-content {
+        max-width: 85%;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    .chat-input-container { padding: 12px 16px 16px; }
+    .input-wrapper { padding: 6px; }
+    .message-input { font-size: 14px; padding: 10px 12px; }
+    .send-button { width: 40px; height: 40px; }
     
     /* About Page Mobile */
     .about-container { padding: 20px 16px; }
     .company-name { font-size: 28px; }
-    .about-section { padding: 20px; }
-    .metrics-grid, .contact-grid { grid-template-columns: 1fr; } /* Stack cards */
+    .company-tagline { font-size: 14px; }
+    .about-section { padding: 20px; margin-bottom: 24px; }
+    .section-title { font-size: 22px; }
+    .section-text { font-size: 14px; }
+    .metrics-grid, .contact-grid { grid-template-columns: 1fr; gap: 16px; } /* Stack cards */
+    .metric-value { font-size: 28px; }
+    .metric-icon { font-size: 32px; }
 }
 
-/* --- MESSAGE CONTENT FORMATTING --- */
-.message-content p {
-    margin: var(--space-12) 0;
-    line-height: 1.7;
-}
-
-.message-content h1,
-.message-content h2,
-.message-content h3 {
-    margin: var(--space-16) 0 var(--space-8) 0;
-    font-weight: 600;
-}
-
-.message-content h1 { 
-    font-size: 1.4rem; 
-    color: #60a5fa;
-}
-
-.message-content h2 { 
-    font-size: 1.2rem; 
-    color: #60a5fa;
-}
-
-.message-content h3 { 
-    font-size: 1.05rem; 
-    color: #94a3b8;
-}
-
-.message-content strong {
-    color: #60a5fa;
-    font-weight: 600;
-}
-
-.message-content em {
-    color: #cbd5e1;
-    font-style: italic;
-}
-
-.message-content .inline-code {
-    background: rgba(96, 165, 250, 0.15);
-    color: #60a5fa;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'Monaco', 'Menlo', monospace;
-    font-size: 0.9em;
-}
-
-.message-content .code-block {
-    background: rgba(0, 0, 0, 0.4);
-    border-left: 3px solid #60a5fa;
-    padding: var(--space-12);
-    border-radius: 6px;
-    overflow-x: auto;
-    margin: var(--space-12) 0;
-    font-family: 'Monaco', 'Menlo', monospace;
-    font-size: 0.85em;
-    line-height: 1.5;
-}
-
-.message-content .code-block code {
-    color: #cbd5e1;
-}
-
-.message-content .msg-list {
-    margin: var(--space-12) 0 var(--space-12) var(--space-20);
-    line-height: 1.8;
-}
-
-.message-content .msg-list li {
-    margin: var(--space-6) 0;
-    color: #cbd5e1;
-}
-
-.message-content ul.msg-list li::marker {
-    color: #60a5fa;
-}
-
-.message-content ol.msg-list li {
-    margin-left: var(--space-8);
-}
-
-.message-content ol.msg-list li::marker {
-    color: #60a5fa;
-    font-weight: 600;
+/* --- TABLET RESPONSIVE (768px - 1024px) --- */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .sidebar { width: 250px; }
+    .sidebar-content { padding: 20px; }
+    .chat-header { padding: 24px 32px; }
+    .chat-messages { padding: 24px 32px; }
+    .chat-input-container { padding: 20px 32px 24px; }
+    .message-content { max-width: 75%; }
+    .metrics-grid, .contact-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 }
