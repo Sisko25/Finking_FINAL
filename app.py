@@ -128,20 +128,29 @@ def chat():
             'stream': False
         }
 
-        # Make API request
+        # Make API request with increased timeout (90 seconds)
         response = requests.post(
             DEEPSEEK_API_URL,
             headers=headers,
             json=payload,
-            timeout=30
+            timeout=90  # Increased from 30 to 90 seconds
         )
 
         # Handle API errors
         if response.status_code != 200:
             logger.error(f"DeepSeek API error: {response.status_code} - {response.text}")
-            return jsonify({
-                'error': f'AI service returned error: {response.status_code}. Please try again.'
-            }), response.status_code
+            
+            # Provide specific error messages based on status code
+            if response.status_code == 401:
+                error_msg = 'Authentication failed. Please check API configuration.'
+            elif response.status_code == 429:
+                error_msg = 'Rate limit exceeded. Please try again in a moment.'
+            elif response.status_code >= 500:
+                error_msg = 'AI service is temporarily unavailable. Please try again.'
+            else:
+                error_msg = f'AI service returned error: {response.status_code}. Please try again.'
+            
+            return jsonify({'error': error_msg}), 503
 
         # Parse response
         response_data = response.json()
@@ -153,7 +162,7 @@ def chat():
             }), 500
 
         ai_reply = response_data['choices'][0]['message']['content']
-        logger.info(f"Successfully generated response: {ai_reply[:50]}...")
+        logger.info(f"Successfully generated response (length: {len(ai_reply)} chars)")
 
         return jsonify({
             'reply': ai_reply,
@@ -163,15 +172,15 @@ def chat():
         }), 200
 
     except requests.exceptions.Timeout:
-        logger.error("DeepSeek API request timeout")
+        logger.error("DeepSeek API request timeout after 90 seconds")
         return jsonify({
-            'error': 'Request timeout. The AI service took too long to respond. Please try again.'
+            'error': 'The AI is taking too long to respond. Please try a simpler question or try again later.'
         }), 504
         
     except requests.exceptions.ConnectionError:
         logger.error("DeepSeek API connection error")
         return jsonify({
-            'error': 'Connection error. Unable to reach AI service. Please check your internet connection.'
+            'error': 'Unable to connect to AI service. Please check your internet connection and try again.'
         }), 503
         
     except requests.exceptions.RequestException as e:
@@ -222,6 +231,9 @@ if __name__ == '__main__':
     
     if debug_mode:
         logger.warning("Running in DEBUG mode - not suitable for production!")
+    
+    logger.info(f"Starting FinKing AI server on port {port}")
+    logger.info(f"DeepSeek API configured: {bool(DEEPSEEK_API_KEY)}")
     
     app.run(
         host='0.0.0.0',
