@@ -1,6 +1,7 @@
 // FinKing AI - Chat Functionality
 // API endpoint for backend
 const API_URL = '/api/chat';
+
 // DOM elements
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
@@ -67,10 +68,13 @@ async function sendMessage(userMessage) {
         }
         
         const data = await response.json();
+        console.log('Received data:', data); // Debug log
         
-        // Add assistant response
-        if (data.response) {
-            addMessage('assistant', data.response);
+        // Add assistant response - FIXED: Changed from data.response to data.reply
+        if (data.reply) {
+            addMessage('assistant', data.reply);
+        } else if (data.error) {
+            addMessage('assistant', data.error);
         } else {
             addMessage('assistant', 'Sorry, I encountered an error processing your request.');
         }
