@@ -115,7 +115,7 @@ def chat():
         }
         
         payload = {
-            'model': 'deepseek-chat',
+            'model': 'deepseek-v4',
             'messages': [
                 {'role': 'system', 'content': SYSTEM_PROMPT},
                 {'role': 'user', 'content': user_message}
